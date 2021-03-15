@@ -21,7 +21,6 @@
 		<java.version>1.8</java.version>
 
 		<postgresql.version>42.2.8</postgresql.version>
-		<spring-doc-openapi-ui.version>1.4.3</spring-doc-openapi-ui.version>
 
 		<maven-jar-plugin.version>3.1.2</maven-jar-plugin.version>
 		<enforcer-plugin.version>3.0.0-M2</enforcer-plugin.version>
@@ -34,7 +33,7 @@
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-logging</artifactId>
+					<artifactId>spring-boot-starter-logging</artifactId> <!-- Use spring-boot-starter-log4j2 instead -->
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -50,7 +49,7 @@
 			<exclusions>
 				<exclusion>
 					<groupId>org.apache.tomcat</groupId>
-					<artifactId>tomcat-jdbc</artifactId>
+					<artifactId>tomcat-jdbc</artifactId> <!-- Use hikari instead -->
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -64,12 +63,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>${spring-doc-openapi-ui.version}</version>
 		</dependency>
 
 		<dependency>
