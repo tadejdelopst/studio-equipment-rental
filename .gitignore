@@ -8,7 +8,6 @@ log42j-test.xml
 *.ipr
 dataset_xsd
 preferences.xml
-RAD.wsdl
 *.log
 *.log.[0-9]
 id_file

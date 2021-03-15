@@ -1,0 +1,24 @@
+server:
+  port: 8787
+
+spring:
+  application:
+    name: Studio-Rental-Equipment
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: <url>
+    password: <password>
+    username: <username>
+    hikari:
+      maximumPoolSize: 10
+    jpa:
+      hibernate:
+        ddl-auto: update
+        show-sql: true
+        database: postgresql
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+flyway:
+  url: <url>
+  user: <password>
+  password: <username>
