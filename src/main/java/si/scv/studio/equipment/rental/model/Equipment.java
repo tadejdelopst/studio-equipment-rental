@@ -1,5 +1,6 @@
 package si.scv.studio.equipment.rental.model;
 
+
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -7,9 +8,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
-public class User {
-
+@Table(name = "equipments")
+public class Equipment {
     @Id
     @GeneratedValue(generator = "hibseq")
     @GenericGenerator(
@@ -23,54 +23,44 @@ public class User {
     )
     private Long id;
 
-    private String firstName;
+    private String name;
 
-    private String lastName;
+    private String model;
 
-    private String email;
+    private String warnings;
 
-    private String pass;
+    private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "studio_id", nullable = false)
     private Studio studio;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "location_id", nullable = false)
-    private Location location;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "equipment", fetch = FetchType.LAZY)
     private List<Rental> rentals;
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }
 
-    public String getFirstName() { return firstName; }
+    public String getName() { return name; }
 
-    public void setFirstName(String firstName) { this.firstName = firstName; }
+    public void setName(String name) { this.name = name; }
 
-    public String getLastName() { return lastName; }
+    public String getModel() { return model; }
 
-    public void setLastName(String lastName) { this.lastName = lastName; }
+    public void setModel(String model) { this.model = model; }
 
-    public String getEmail() { return email; }
+    public String getWarnings() { return warnings; }
 
-    public void setEmail(String email) { this.email = email; }
+    public void setWarnings(String warnings) { this.warnings = warnings; }
 
-    public String getPass() { return pass; }
+    public String getDescription() { return description; }
 
-    public void setPass(String pass) { this.pass = pass; }
+    public void setDescription(String description) { this.description = description; }
 
     public Studio getStudio() { return studio; }
 
     public void setStudio(Studio studio) { this.studio = studio; }
-
-    public Location getLocation() { return location; }
-
-    public void setLocation(Location location) { this.location = location; }
 
     public List<Rental> getRentals() { return rentals; }
 

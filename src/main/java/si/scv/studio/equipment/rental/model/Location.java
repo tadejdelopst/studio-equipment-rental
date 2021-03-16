@@ -7,8 +7,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "studios")
-public class Studio {
+@Table(name = "locations")
+public class Location {
     @Id
     @GeneratedValue(generator = "hibseq")
     @GenericGenerator(
@@ -24,19 +24,13 @@ public class Studio {
 
     private String name;
 
-    private String address;
+    private String post;
 
-    private String email;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "location_id", nullable = false)
-    private Location location;
-
-    @OneToMany(mappedBy = "studio", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "location", fetch = FetchType.LAZY)
     private List<User> users;
 
-    @OneToMany(mappedBy = "studio", fetch = FetchType.LAZY)
-    private List<Equipment> equipments;
+    @OneToMany(mappedBy = "location", fetch = FetchType.LAZY)
+    private List<Studio> studios;
 
     public Long getId() { return id; }
 
@@ -46,23 +40,15 @@ public class Studio {
 
     public void setName(String name) { this.name = name; }
 
-    public String getAddress() { return address; }
+    public String getPost() { return post; }
 
-    public void setAddress(String address) { this.address = address; }
-
-    public String getEmail() { return email; }
-
-    public void setEmail(String email) { this.email = email; }
-
-    public Location getLocation() { return location; }
-
-    public void setLocation(Location location) { this.location = location; }
+    public void setPost(String post) { this.post = post; }
 
     public List<User> getUsers() { return users; }
 
     public void setUsers(List<User> users) { this.users = users; }
 
-    public List<Equipment> getEquipments() { return equipments; }
+    public List<Studio> getStudios() { return studios; }
 
-    public void setEquipments(List<Equipment> equipments) { this.equipments = equipments; }
+    public void setStudios(List<Studio> studios) { this.studios = studios; }
 }
