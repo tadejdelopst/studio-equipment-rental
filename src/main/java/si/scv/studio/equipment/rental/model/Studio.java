@@ -22,8 +22,6 @@ public class Studio {
     )
     private Long id;
 
-    private Long OHDF;
-
     private String name;
 
     private String address;
