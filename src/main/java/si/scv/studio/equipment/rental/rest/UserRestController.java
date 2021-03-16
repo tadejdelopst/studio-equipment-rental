@@ -26,7 +26,7 @@ public class UserRestController {
     }
 
     @GetMapping(value = "/{fistName}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<UserDto> getUsersByFirstName(@PathVariable String fistName) {
-        return userService.getUsersByFirstName(fistName);
+    public List<UserDto> getUsersByFirstName(@PathVariable String firstName) {
+        return userService.getUsersByFirstName(firstName);
     }
 }
