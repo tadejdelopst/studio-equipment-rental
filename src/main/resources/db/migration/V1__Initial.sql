@@ -10,9 +10,6 @@ CREATE TABLE "studios"
     primary key (id)
 );
 
-CREATE
-INDEX "IX_Relationship4" ON "studios" ("location_id");
-
 CREATE TABLE "users"
 (
     "id"          int8          NOT NULL,
@@ -25,13 +22,6 @@ CREATE TABLE "users"
     primary key (id)
 );
 
-CREATE
-INDEX "IX_Relationship7" ON "users" ("studio_id");
-
-CREATE
-INDEX "IX_Relationship8" ON "users" ("location_id");
-
-
 CREATE TABLE "locations"
 (
     "id"   int8         NOT NULL,
@@ -40,21 +30,58 @@ CREATE TABLE "locations"
     primary key (id)
 );
 
-ALTER TABLE "studios"
-    ADD CONSTRAINT "Relationship4" FOREIGN KEY ("location_id") REFERENCES "locations" ("id");
+CREATE TABLE "studios"
+(
+    "id"          int8         NOT NULL,
+    "name"        varchar(255) NOT NULL,
+    "address"     varchar(255) NOT NULL,
+    "email"       varchar(255) NOT NULL,
+    "location_id" int8,
+    primary key (id)
+);
 
-ALTER TABLE "users"
-    ADD CONSTRAINT "Relationship7" FOREIGN KEY ("studio_id") REFERENCES "studios" ("id");
+CREATE TABLE "equipment"
+(
+    "id" int8 NOT NULL,
+    "name" varchar(255) NOT NULL,
+    "model" varchar(255)
+        "warnings" varchar(255)
+        "description" varchar(255) NOT NULL,
+    "studio_id" int8,
+    primary key (id)
+);
 
-ALTER TABLE "users"
-    ADD CONSTRAINT "Relationship8" FOREIGN KEY ("location_id") REFERENCES "locations" ("id");
+CREATE TABLE "rentals"
+(
+    "id" int8 NOT NULL,
+    "rental_date" date NOT NULL,
+    "return_date" date NOT NULL,
+    "equipment_id" int8,
+    "user_id" int8,
+    primary key (id)
+);
 
-INSERT INTO locations(id, name, post)
-VALUES (1, 'Adlešiči', '8341');
+CREATE INDEX "IX_Relationship1" ON "equipment" ("studio_id");
 
-INSERT INTO studios (id, name, address, email, location_id)
-VALUES (1, 'StudioEna', 'StudioEna23', 'StudioEna@gmail.com', 1);
+CREATE INDEX "IX_Relationship2" ON "rentals" ("equipment_id");
+
+CREATE INDEX "IX_Relationship3" ON "rentals" ("user_id");
+
+CREATE INDEX "IX_Relationship4" ON "studios" ("location_id");
+
+CREATE INDEX "IX_Relationship7" ON "users" ("studio_id");
+
+CREATE INDEX "IX_Relationship8" ON "users" ("location_id");
 
 
-INSERT INTO users (id, first_name, last_name, email, pass, studio_id, location_id)
-VALUES (1, 'UserEnaName', 'UserEnaLastName', 'test@gmail.com', 'test', 1, 1);
+ALTER TABLE "rentals" ADD CONSTRAINT "Relationship2" FOREIGN KEY ("equipment_id") REFERENCES "equipment" ("id");
+
+ALTER TABLE "rentals" ADD CONSTRAINT "Relationship3" FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+
+ALTER TABLE "studios" ADD CONSTRAINT "Relationship4" FOREIGN KEY ("location_id") REFERENCES "locations" ("id");
+
+ALTER TABLE "users" ADD CONSTRAINT "Relationship7" FOREIGN KEY ("studio_id") REFERENCES "studios" ("id");
+
+ALTER TABLE "users" ADD CONSTRAINT "Relationship8" FOREIGN KEY ("location_id") REFERENCES "locations" ("id");
+
+ALTER TABLE "equipment" ADD CONSTRAINT "Relationship1" FOREIGN KEY ("studio_id") REFERENCES "studios" ("id");
