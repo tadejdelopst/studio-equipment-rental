@@ -11,7 +11,4 @@ import java.util.List;
 public interface StudioRepository extends JpaRepository<Studio, Long> {
     @Query("select s from User u join u.studio s where u.email = :email")
     List<Studio> getStudiosByUserEmail(String email);
-
-    @Query("select s from User u join u.studio s where u.lastName = :lastName")
-    List<Studio> getStudiosByUserLastName(String lastName);
 }

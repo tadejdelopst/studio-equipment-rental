@@ -30,17 +30,7 @@ CREATE TABLE "locations"
     primary key (id)
 );
 
-CREATE TABLE "studios"
-(
-    "id"          int8         NOT NULL,
-    "name"        varchar(255) NOT NULL,
-    "address"     varchar(255) NOT NULL,
-    "email"       varchar(255) NOT NULL,
-    "location_id" int8,
-    primary key (id)
-);
-
-CREATE TABLE "equipment"
+CREATE TABLE "equipments"
 (
     "id"          int8         NOT NULL,
     "name"        varchar(255) NOT NULL,
@@ -62,7 +52,7 @@ CREATE TABLE "rentals"
 );
 
 CREATE
-INDEX "IX_Relationship1" ON "equipment" ("studio_id");
+INDEX "IX_Relationship1" ON "equipments" ("studio_id");
 
 CREATE
 INDEX "IX_Relationship2" ON "rentals" ("equipment_id");
@@ -81,7 +71,7 @@ INDEX "IX_Relationship8" ON "users" ("location_id");
 
 
 ALTER TABLE "rentals"
-    ADD CONSTRAINT "Relationship2" FOREIGN KEY ("equipment_id") REFERENCES "equipment" ("id");
+    ADD CONSTRAINT "Relationship2" FOREIGN KEY ("equipment_id") REFERENCES "equipments" ("id");
 
 ALTER TABLE "rentals"
     ADD CONSTRAINT "Relationship3" FOREIGN KEY ("user_id") REFERENCES "users" ("id");
@@ -95,7 +85,7 @@ ALTER TABLE "users"
 ALTER TABLE "users"
     ADD CONSTRAINT "Relationship8" FOREIGN KEY ("location_id") REFERENCES "locations" ("id");
 
-ALTER TABLE "equipment"
+ALTER TABLE "equipments"
     ADD CONSTRAINT "Relationship1" FOREIGN KEY ("studio_id") REFERENCES "studios" ("id");
 
 INSERT INTO locations(id, name,post) VALUES(1,'Adlešiči','8341');
@@ -109,28 +99,28 @@ VALUES (1, 'Filmski studio Viba film', 'Stegne 5', 'StudioViba@info.si', 1);
 
 
 INSERT INTO users (id, first_name, last_name, email, pass, studio_id, location_id)
-VALUES (1, 'Marcel', 'Zep', 'mici.zep@gmail.com', 'test', 1, 1);
+VALUES (1, 'Marcel', 'Zep', 'mici.zep@gmail.com', '$2a$10$1v5MNZSDiLOHdAbgayWdsOxo8sOCcStyz8NV.kRqzmbgliedunaZ2', 1, 1);
 
 INSERT INTO users (id, first_name, last_name, email, pass, studio_id, location_id)
-VALUES (2, 'Tadej', 'Delopst', 'tadejdelopst@gmail.com', 'test', 1, 2);
+VALUES (2, 'Tadej', 'Delopst', 'tadejdelopst@gmail.com', '$2a$10$1v5MNZSDiLOHdAbgayWdsOxo8sOCcStyz8NV.kRqzmbgliedunaZ2', 1, 2);
 
 INSERT INTO users (id, first_name, last_name, email, pass, studio_id, location_id)
-VALUES (3, 'Tilen', 'Hostnik', 'tilen.hostnik@gmail.com', 'test', 1, 3);
+VALUES (3, 'Tilen', 'Hostnik', 'tilen.hostnik@gmail.com', '$2a$10$1v5MNZSDiLOHdAbgayWdsOxo8sOCcStyz8NV.kRqzmbgliedunaZ2', 1, 3);
 
 INSERT INTO users (id, first_name, last_name, email, pass, studio_id, location_id)
-VALUES (4, 'Mark', 'Legner', 'merki@gmail.com', 'test', 1, 4);
+VALUES (4, 'Mark', 'Legner', 'merki@gmail.com', '$2a$10$1v5MNZSDiLOHdAbgayWdsOxo8sOCcStyz8NV.kRqzmbgliedunaZ2', 1, 4);
 
 
-INSERT INTO equipment (id, name, model, warnings, description, studio_id)
+INSERT INTO equipments (id, name, model, warnings, description, studio_id)
 VALUES (1,'kamera' , 'Nikon 4555', 'Ni opomb.', 'kamera, ki dela popolno.', 1);
 
-INSERT INTO equipment (id, name, model, warnings, description, studio_id)
+INSERT INTO equipments (id, name, model, warnings, description, studio_id)
 VALUES (2,'mikrofon' , 'HyperX 556', 'Malce poškodovana pena. ', 'Mikrofon za zajem zvoka v precej malem območju in za zmanjšanje zvokov iz ozadja.', 1);
 
-INSERT INTO equipment (id, name, model, warnings, description, studio_id)
+INSERT INTO equipments (id, name, model, warnings, description, studio_id)
 VALUES (3,'zeleno platno' , 'GR69', 'Ni opomb.', 'Platno, ki se uporablja za posebne efekte ozadja pri snemanju.', 1);
 
-INSERT INTO equipment (id, name, model, warnings, description, studio_id)
+INSERT INTO equipments (id, name, model, warnings, description, studio_id)
 VALUES (4,'kamera' , 'Nikon 420 stoner edition', 'Ni opomb.', 'Kamera za kadre, ki se snemajo bolj od daleč, saj ima širokokotne leče', 1);
 
 
@@ -142,28 +132,28 @@ VALUES (2, 'Filmski studio VPK', 'Kranjčeva ulica 22', 'Studio.VPK@gmail.com', 
 
 
 INSERT INTO users (id, first_name, last_name, email, pass, studio_id, location_id)
-VALUES (5, 'Jon', 'Rojnik', 'jon.r.gorsek@gmail.com', 'test', 2, 1);
+VALUES (5, 'Jon', 'Rojnik', 'jon.r.gorsek@gmail.com', '$2a$10$1v5MNZSDiLOHdAbgayWdsOxo8sOCcStyz8NV.kRqzmbgliedunaZ2', 2, 1);
 
 INSERT INTO users (id, first_name, last_name, email, pass, studio_id, location_id)
-VALUES (6, 'Aleks', 'Vrenko', 'aleks.vrenko@gmail.com', 'test', 2, 2);
+VALUES (6, 'Aleks', 'Vrenko', 'aleks.vrenko@gmail.com', '$2a$10$1v5MNZSDiLOHdAbgayWdsOxo8sOCcStyz8NV.kRqzmbgliedunaZ2', 2, 2);
 
 INSERT INTO users (id, first_name, last_name, email, pass, studio_id, location_id)
-VALUES (7, 'Maks', 'Bah', 'maksbah@gmail.com', 'test', 2, 3);
+VALUES (7, 'Maks', 'Bah', 'maksbah@gmail.com', '$2a$10$1v5MNZSDiLOHdAbgayWdsOxo8sOCcStyz8NV.kRqzmbgliedunaZ2', 2, 3);
 
 INSERT INTO users (id, first_name, last_name, email, pass, studio_id, location_id)
-VALUES (8, 'Tim', 'Detečnik', 'dteam@gmail.com', 'test', 2, 4);
+VALUES (8, 'Tim', 'Detečnik', 'dteam@gmail.com', '$2a$10$1v5MNZSDiLOHdAbgayWdsOxo8sOCcStyz8NV.kRqzmbgliedunaZ2', 2, 4);
 
 
-INSERT INTO equipment (id, name, model, warnings, description, studio_id)
+INSERT INTO equipments (id, name, model, warnings, description, studio_id)
 VALUES (5,'Diktafon' , 'DICK22', 'Ni opomb.', 'Za snemanje zvoka, ki ima zelo dobro hvaliteto, seveda pa zajema vse zvoke iz ozadja.', 2);
 
-INSERT INTO equipment (id, name, model, warnings, description, studio_id)
+INSERT INTO equipments (id, name, model, warnings, description, studio_id)
 VALUES (6,'Kamera' , 'Nikon 40', 'Držalo je malce opraskano. ', 'To je kamera za snemanje kvalitetne slike', 2);
 
-INSERT INTO equipment (id, name, model, warnings, description, studio_id)
+INSERT INTO equipments (id, name, model, warnings, description, studio_id)
 VALUES (7,'Zeleno platno' , 'GRNSRN', 'Ni opomb.', 'Platno, ki se uporablja za posebne efekte ozadja pri snemanju.', 2);
 
-INSERT INTO equipment (id, name, model, warnings, description, studio_id)
+INSERT INTO equipments (id, name, model, warnings, description, studio_id)
 VALUES (8,'Kamera' , 'Cannon 426', 'Ni opomb.', 'Taka fajna kamera. Res!', 2);
 
 
@@ -174,28 +164,28 @@ VALUES (3, 'Filmski studio Arkadena', 'Brodišče 23', 'Arkadena@info.si', 1);
 
 
 INSERT INTO users (id, first_name, last_name, email, pass, studio_id, location_id)
-VALUES (9, 'Dejan', 'Soleša', 'dejansolesa@gmail.com', 'test', 3, 1);
+VALUES (9, 'Dejan', 'Soleša', 'dejansolesa@gmail.com', '$2a$10$1v5MNZSDiLOHdAbgayWdsOxo8sOCcStyz8NV.kRqzmbgliedunaZ2', 3, 1);
 
 INSERT INTO users (id, first_name, last_name, email, pass, studio_id, location_id)
-VALUES (10, 'Nick', 'Srebot', 'nicksrebot@gmail.com', 'test', 3, 2);
+VALUES (10, 'Nick', 'Svetel', 'nicksvetel@gmail.com', '$2a$10$1v5MNZSDiLOHdAbgayWdsOxo8sOCcStyz8NV.kRqzmbgliedunaZ2', 3, 2);
 
 INSERT INTO users (id, first_name, last_name, email, pass, studio_id, location_id)
-VALUES (11, 'Matic', 'Ozimic', 'pička.peder@gmail.com', 'test', 3, 3);
+VALUES (11, 'Matic', 'Kuhar', 'matic.kuhar@gmail.com', '$2a$10$1v5MNZSDiLOHdAbgayWdsOxo8sOCcStyz8NV.kRqzmbgliedunaZ2', 3, 3);
 
 INSERT INTO users (id, first_name, last_name, email, pass, studio_id, location_id)
-VALUES (12, 'Melita', 'Cvikl', 'melita.cvikl@gmail.com', 'test', 3, 4);
+VALUES (12, 'Melita', 'Hruska', 'melita.hruska@gmail.com', '$2a$10$1v5MNZSDiLOHdAbgayWdsOxo8sOCcStyz8NV.kRqzmbgliedunaZ2', 3, 4);
 
 
-INSERT INTO equipment (id, name, model, warnings, description, studio_id)
+INSERT INTO equipments (id, name, model, warnings, description, studio_id)
 VALUES (9,'Kamera' , 'Cannon 458', 'Ni opomb.', 'kamera, ki dela ful vredu.', 3);
 
-INSERT INTO equipment (id, name, model, warnings, description, studio_id)
+INSERT INTO equipments (id, name, model, warnings, description, studio_id)
 VALUES (10,'Mikrofon' , 'MIC42', 'Na momente kabel ne dela najbolje. ', 'Mikrofon snema zvok v zelo dobri kvaliteti', 3);
 
-INSERT INTO equipment (id, name, model, warnings, description, studio_id)
+INSERT INTO equipments (id, name, model, warnings, description, studio_id)
 VALUES (11,'Kamera' , 'NIKON23', 'Ni opomb.', 'Snema lahko v vseh svetlobah in da ven lepo fotografijo.', 3);
 
-INSERT INTO equipment (id, name, model, warnings, description, studio_id)
+INSERT INTO equipments (id, name, model, warnings, description, studio_id)
 VALUES (12,'Kamera' , 'Samsung2373', 'Ni opomb.', 'Pametna kamera, ki jo lahko upravljaš z glasom', 3);
 
 
@@ -206,30 +196,32 @@ INSERT INTO studios (id, name, address, email, location_id)
 VALUES (4, 'Filmski studio Partizanka', 'Dunajska cesta 123', 'Partizanka@gmail.com', 1);
 
 
-INSERT INTO users (id, first_name, last_name, email, pass, studio_id, location_id)
-VALUES (12, 'Nada', 'Pirnat', 'nadapirnat@gmail.com', 'test', 4, 1);
 
 INSERT INTO users (id, first_name, last_name, email, pass, studio_id, location_id)
-VALUES (13, 'Nick', 'Srebot', 'nicksrebot@gmail.com', 'test', 4, 2);
+VALUES (13, 'Nick', 'Srebot', 'nicksrebot@gmail.com', '$2a$10$1v5MNZSDiLOHdAbgayWdsOxo8sOCcStyz8NV.kRqzmbgliedunaZ2', 4, 2);
 
 INSERT INTO users (id, first_name, last_name, email, pass, studio_id, location_id)
-VALUES (14, 'Matic', 'Ozimic', 'pička.peder@gmail.com', 'test', 4, 3);
+VALUES (14, 'Matic', 'Ozimic', 'matic.ozimic@gmail.com', '$2a$10$1v5MNZSDiLOHdAbgayWdsOxo8sOCcStyz8NV.kRqzmbgliedunaZ2', 4, 3);
 
 INSERT INTO users (id, first_name, last_name, email, pass, studio_id, location_id)
-VALUES (15, 'Melita', 'Cvikl', 'melita.cvikl@gmail.com', 'test', 4, 4);
+VALUES (15, 'Melita', 'Mlada', 'melita.mlada@gmail.com', '$2a$10$1v5MNZSDiLOHdAbgayWdsOxo8sOCcStyz8NV.kRqzmbgliedunaZ2', 4, 4);
+
+INSERT INTO users (id, first_name, last_name, email, pass, studio_id, location_id)
+VALUES (16, 'Nada', 'Janežič', 'nadajanežič@gmail.com', '$2a$10$1v5MNZSDiLOHdAbgayWdsOxo8sOCcStyz8NV.kRqzmbgliedunaZ2', 4, 1);
 
 
-INSERT INTO equipment (id, name, model, warnings, description, studio_id)
-VALUES (12,'Kamera' , 'Nikon 11', 'Ni opomb.', 'kamera za vsakdanje snemanje.', 4);
 
-INSERT INTO equipment (id, name, model, warnings, description, studio_id)
+INSERT INTO equipments (id, name, model, warnings, description, studio_id)
 VALUES (13,'Mikrofon' , 'MIC242', 'Ni opomb', 'navaden mikrofon za snemanje zvoka.', 4);
 
-INSERT INTO equipment (id, name, model, warnings, description, studio_id)
+INSERT INTO equipments (id, name, model, warnings, description, studio_id)
 VALUES (14,'Zeleno platno' , 'GREEN146', 'Ni opomb.', 'Za dodajanje efektov v ozadju', 4);
 
-INSERT INTO equipment (id, name, model, warnings, description, studio_id)
+INSERT INTO equipments (id, name, model, warnings, description, studio_id)
 VALUES (15,'Kamera' , 'Pyhit2373', 'Ni opomb.', 'Kamera z lepo slilo.', 4);
+
+INSERT INTO equipments (id, name, model, warnings, description, studio_id)
+VALUES (16,'Kamera' , 'Nikon 11', 'Ni opomb.', 'kamera za vsakdanje snemanje.', 4);
 
 
 

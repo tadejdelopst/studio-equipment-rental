@@ -1,12 +1,10 @@
 package si.scv.studio.equipment.rental.model;
 
-import org.graalvm.compiler.lir.LIRInstruction;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "rentals")

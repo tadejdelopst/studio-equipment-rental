@@ -2,19 +2,24 @@ package si.scv.studio.equipment.rental.dto;
 
 public class EquipmentDto {
 
+    private final Long id;
     private final String name;
-
     private final String model;
-
     private final String warnings;
-
     private final String description;
+    private final boolean rented;
 
-    public EquipmentDto(String _name, String _model, String _warnings, String _description){
-        this.name = _name;
-        this.model = _model;
-        this.warnings = _warnings;
-        this.description = _description;
+    public EquipmentDto(Long id, String name, String model, String warnings, String description, boolean rented){
+        this.id = id;
+        this.name = name;
+        this.model = model;
+        this.warnings = warnings;
+        this.description = description;
+        this.rented = rented;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() { return name; }
@@ -24,4 +29,9 @@ public class EquipmentDto {
     public String getWarnings() { return warnings; }
 
     public String getDescription() { return description; }
+
+    public boolean isRented() {
+        return rented;
+    }
 }
+

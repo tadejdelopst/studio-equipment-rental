@@ -32,11 +32,11 @@ public class User {
     private String pass;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "studio_id", nullable = false)
+    @JoinColumn(name = "studio_id")
     private Studio studio;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "location_id", nullable = false)
+    @JoinColumn(name = "location_id")
     private Location location;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
