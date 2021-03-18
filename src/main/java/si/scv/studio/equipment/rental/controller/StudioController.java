@@ -53,7 +53,7 @@ public class StudioController {
             return modelAndView;
         }
 
-        modelAndView.addObject("userName", "Welcome " + user.getEmail() + "/" + user.getFirstName() + " " + user.getLastName());
+        modelAndView.addObject("userName", "Welcome " + user.getFirstName() + " " + user.getLastName());
 
         modelAndView.addObject("studioEquipment", equipmentService.getStudioEquipment(studioDto.getId()));
         modelAndView.setViewName("home/studio");
