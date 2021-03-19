@@ -32,7 +32,14 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserDto getUserByEmail(String email){
         User user = userRepository.findByEmail(email);
-        return user == null ? null : new UserDto(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPass());
+        return user == null ?
+                null :
+                new UserDto(
+                        user.getFirstName(),
+                        user.getLastName(),
+                        user.getEmail(),
+                        user.getPass(),
+                        user.getProfileImage());
     }
 
 
@@ -43,6 +50,7 @@ public class UserService {
         user.setPass(bCryptPasswordEncoder.encode(userDto.getPassword()));
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
+        user.setProfileImage(userDto.getProfileImage());
         userRepository.save(user);
     }
 

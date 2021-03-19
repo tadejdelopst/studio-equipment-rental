@@ -18,7 +18,7 @@ public class Equipment {
             parameters = {
                     @Parameter(name = "sequence_name", value = "hibseq"),
                     @Parameter(name = "increment_size", value = "50"),
-                    @Parameter(name = "initial_value", value = "1")
+                    @Parameter(name = "initial_value", value = "100")
             }
     )
     private Long id;

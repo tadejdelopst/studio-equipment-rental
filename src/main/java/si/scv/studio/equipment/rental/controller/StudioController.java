@@ -1,6 +1,7 @@
 package si.scv.studio.equipment.rental.controller;
 
 import net.bytebuddy.implementation.bytecode.Throw;
+import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.base64.Base64Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -18,6 +19,7 @@ import si.scv.studio.equipment.rental.service.RentalService;
 import si.scv.studio.equipment.rental.service.StudioService;
 import si.scv.studio.equipment.rental.service.UserService;
 
+import java.util.Base64;
 import java.util.List;
 
 @Controller
@@ -54,7 +56,7 @@ public class StudioController {
         }
 
         modelAndView.addObject("userName", "Welcome " + user.getFirstName() + " " + user.getLastName());
-
+        modelAndView.addObject("profileImage", Base64.getEncoder().encodeToString(user.getProfileImage()));
         modelAndView.addObject("studioEquipment", equipmentService.getStudioEquipment(studioDto.getId()));
         modelAndView.setViewName("home/studio");
         return modelAndView;

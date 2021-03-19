@@ -1,15 +1,18 @@
 package si.scv.studio.equipment.rental.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import si.scv.studio.equipment.rental.dto.UserDto;
 import si.scv.studio.equipment.rental.service.UserService;
+
+import java.io.IOException;
+import java.util.Arrays;
 
 @Controller
 public class LoginController {
@@ -28,7 +31,6 @@ public class LoginController {
         return modelAndView;
     }
 
-
     @GetMapping(value="/registration")
     public ModelAndView registration(){
         ModelAndView modelAndView = new ModelAndView();
@@ -39,7 +41,7 @@ public class LoginController {
     }
 
     @PostMapping(value = "/registration")
-    public ModelAndView createNewUser(UserDto user, BindingResult bindingResult) {
+    public ModelAndView createNewUser(UserDto user, @RequestParam("image") MultipartFile multipartFile, BindingResult bindingResult) throws IOException {
         ModelAndView modelAndView = new ModelAndView();
         UserDto existingUser = userService.getUserByEmail(user.getEmail());
         if (existingUser != null) {
@@ -51,6 +53,9 @@ public class LoginController {
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("registration");
         } else {
+            if (multipartFile != null) {
+                user.setProfileImage(multipartFile.getBytes());
+            }
             userService.saveUser(user);
             modelAndView.addObject("successMessage", "User has been registered successfully/");
             modelAndView.addObject("user", new UserDto());

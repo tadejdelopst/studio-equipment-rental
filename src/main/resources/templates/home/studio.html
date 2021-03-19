@@ -10,9 +10,9 @@
     <!-- Bootstrap core CSS -->
     <link type="text/css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 
-    <script th:src="@{/css/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 
-    <script th:src="@{/css/cheatsheet.js}"></script>
+    <script th:src="@{/js/cheatsheet.js}"></script>
 
     <style>
         .bd-placeholder-img {
@@ -49,6 +49,12 @@
 <body class="py-4">
 
 <main>
+    <div class="row">
+        <div class="col-md-12">
+            <img class="card-img-top" th:src="*{'data:image/png;base64,' + profileImage}">
+        </div>
+    </div>
+
     <div class="container">
         <div class="bd-heading sticky-xl-top align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
             <h3>Borrowed equipment</h3>

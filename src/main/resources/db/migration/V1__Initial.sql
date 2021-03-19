@@ -1,4 +1,4 @@
-CREATE SEQUENCE hibseq START 1 INCREMENT BY 50;
+CREATE SEQUENCE hibseq START 100 INCREMENT BY 50;
 
 CREATE TABLE "studios"
 (
@@ -17,6 +17,7 @@ CREATE TABLE "users"
     "last_name"   varchar(255)  NOT NULL,
     "email"       varchar(255)  NOT NULL,
     "pass"        varchar(1024) NOT NULL,
+    "profile_image" oid,
     "studio_id"   int8,
     "location_id" int8,
     primary key (id)
@@ -87,6 +88,14 @@ ALTER TABLE "users"
 
 ALTER TABLE "equipments"
     ADD CONSTRAINT "Relationship1" FOREIGN KEY ("studio_id") REFERENCES "studios" ("id");
+
+CREATE OR REPLACE FUNCTION FIND_ALL_LOCATIONS()
+RETURNS TABLE(locationId int8, locationName character varying, locationPost character varying) AS
+$$
+BEGIN
+RETURN QUERY SELECT id, name, post FROM locations ORDER BY name;
+END;
+$$ LANGUAGE 'plpgsql';
 
 INSERT INTO locations(id, name,post) VALUES(1,'Adlešiči','8341');
 INSERT INTO locations(id, name,post) VALUES(2,'Ajdovščina','5270');

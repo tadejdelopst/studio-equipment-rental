@@ -2,8 +2,10 @@ package si.scv.studio.equipment.rental.model;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -18,7 +20,7 @@ public class User {
             parameters = {
                     @Parameter(name = "sequence_name", value = "hibseq"),
                     @Parameter(name = "increment_size", value = "50"),
-                    @Parameter(name = "initial_value", value = "1")
+                    @Parameter(name = "initial_value", value = "100")
             }
     )
     private Long id;
@@ -30,6 +32,10 @@ public class User {
     private String email;
 
     private String pass;
+
+    @Lob
+    @Column(name = "profile_image", nullable = true)
+    private byte[] profileImage;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "studio_id")
@@ -63,6 +69,14 @@ public class User {
     public String getPass() { return pass; }
 
     public void setPass(String pass) { this.pass = pass; }
+
+    public byte[] getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(byte[] profileImage) {
+        this.profileImage = profileImage;
+    }
 
     public Studio getStudio() { return studio; }
 
