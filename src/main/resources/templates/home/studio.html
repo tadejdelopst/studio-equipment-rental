@@ -15,26 +15,6 @@
     <script th:src="@{/js/cheatsheet.js}"></script>
 
     <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-        }
-        .themed-grid-col {
-            padding-top: .75rem;
-            padding-bottom: .75rem;
-            background-color: rgba(86, 61, 124, .15);
-            border: 1px solid rgba(86, 61, 124, .2);
-        }
-        .themed-container {
-            padding: .75rem;
-            margin-bottom: 1.5rem;
-            background-color: rgba(0, 123, 255, .15);
-            border: 1px solid rgba(0, 123, 255, .2);
-        }
-
         @media (min-width: 768px) {
             .bd-placeholder-img-lg {
                 font-size: 3.5rem;
@@ -46,37 +26,32 @@
     <!-- Custom styles for this template -->
     <link type="text/css" th:href="@{/css/home.css}" rel="stylesheet">
 </head>
-<body class="py-4">
+<body class="bg-light">
 
-<main>
-    <div class="row">
-        <div class="col-md-12">
-            <img class="card-img-top" th:src="*{'data:image/png;base64,' + profileImage}">
+    <div class="container align-content-center">
+        <div class="bd-heading  align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
+            <h3>Current Equipment</h3>
         </div>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Model</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Warnings</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="equipment : ${studioEquipment}">
+                        <th scope="row" th:text="${equipment.getName()}"></th>
+                        <td th:text="${equipment.getModel()}"></td>
+                        <td th:text="${equipment.getDescription()}"></td>
+                        <td th:text="${equipment.getWarnings()}"></td>
+                    </tr>
+                    </tbody>
+                </table>
     </div>
-
-    <div class="container">
-        <div class="bd-heading sticky-xl-top align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
-            <h3>Borrowed equipment</h3>
-        </div>
-            <div class="bd-example">
-                <div class="accordion" id="accordionExample">
-                    <div class="accordion-item" th:each="equipment : ${studioEquipment}">
-                        <h4 class="accordion-header" id="headingOne">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" th:text="${equipment.getName() + equipment.getModel()}"></button>
-                        </h4>
-                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <h3>Description</h3>
-                                <p th:text="${equipment.getDescription()}"></p>
-                                <h3>Warning</h3>
-                                <p th:text="${equipment.getWarnings()}"></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
     </div>
-</main>
 </body>
 </html>

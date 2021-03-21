@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SelectStudio</title>
+
+    <!-- Bootstrap core CSS -->
+    <link type="text/css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link type="text/css" th:href="@{/css/home.css}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+                <form action="#" th:action="@{/home/addUserStudio}"
+                      method="post">
+                    <h2>Please select your studio before continuing</h2>
+                    <div class="form-group">
+                    <div class="mb-3">
+                        <select id="studioId" name="studioId" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                            <option th:each="studio : ${studios}" th:attr="value = ${studio.getId()}" th:text="${studio.getName()}" ></option>
+                        </select>
+                    </div>
+                    <div class="col-sm-9">
+                        <button type="submit" class="btn btn-primary btn-block">Choose My Studio</button>
+                    </div>
+                    </div>
+                </form>
+    </div>
+</body>
+</html>

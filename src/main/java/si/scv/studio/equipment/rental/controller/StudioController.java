@@ -48,7 +48,7 @@ public class StudioController {
 
         StudioDto studioDto = studioService.getStudioByUserEmail(user.getEmail());
         if (studioDto == null){
-            modelAndView.setViewName("home/addUserStudio");
+            modelAndView.setViewName("redirect:addUserStudio");
             return modelAndView;
         }
 
@@ -73,6 +73,10 @@ public class StudioController {
             throw new UserStudioException("User already has studio!");
         }
 
+        if (user.getProfileImage() != null) {
+            modelAndView.addObject("profileImage", Base64.getEncoder().encodeToString(user.getProfileImage()));
+        }
+
         List<StudioDto> studios = studioService.getStudios();
 
         modelAndView.addObject("studios", studios);
@@ -80,11 +84,11 @@ public class StudioController {
         return modelAndView;
     }
 
-    @PostMapping(value = "/addUserStudio")
-    public ModelAndView addUserStudio(Long studioId, BindingResult bindingResult) {
+    @PostMapping(value = "/home/addUserStudio")
+    public ModelAndView addUserStudio(Long studioId) {
         ModelAndView modelAndView = new ModelAndView();
         userService.addStudioToCurrentUser(studioId);
-        modelAndView.setViewName("home/studio");
+        modelAndView.setViewName("redirect:studio");
         return modelAndView;
     }
 }
