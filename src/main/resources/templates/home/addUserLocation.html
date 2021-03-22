@@ -15,19 +15,19 @@
 </head>
 <body>
 <div class="container">
-    <form action="#" th:action="@{/home/addUserStudio}"
+    <form action="#" th:action="@{/home/addUserLocation}"
           method="post">
-        <h2>Please select your studio before continuing!</h2>
+        <h2>Please select your location before continuing!</h2>
         <div class="form-group">
             <div class="mb-3">
-                <select id="studioId" name="studioId" class="form-select form-select-lg mb-3"
+                <select id="locationId" name="locationId" class="form-select form-select-lg mb-3"
                         aria-label=".form-select-lg example">
-                    <option th:each="studio : ${studios}" th:attr="value = ${studio.getId()}"
-                            th:text="${studio.getName()}"></option>
+                    <option th:each="location : ${locations}" th:attr="value = ${location.getId()}"
+                            th:text="${location.getName()+ ', '+location.getPost()  }"></option>
                 </select>
             </div>
             <div class="col-sm-9">
-                <button type="submit" class="btn btn-primary btn-block">Choose My Studio</button>
+                <button type="submit" class="btn btn-primary btn-block">Choose My Location</button>
             </div>
         </div>
     </form>

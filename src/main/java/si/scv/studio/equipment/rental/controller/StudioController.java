@@ -4,17 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import si.scv.studio.equipment.rental.dao.LocationDao;
+import si.scv.studio.equipment.rental.dto.LocationDto;
 import si.scv.studio.equipment.rental.dto.StudioDto;
 import si.scv.studio.equipment.rental.dto.UserDto;
+import si.scv.studio.equipment.rental.exception.UserLocationException;
 import si.scv.studio.equipment.rental.exception.UserStudioException;
-import si.scv.studio.equipment.rental.service.EquipmentService;
-import si.scv.studio.equipment.rental.service.RentalService;
-import si.scv.studio.equipment.rental.service.StudioService;
-import si.scv.studio.equipment.rental.service.UserService;
+import si.scv.studio.equipment.rental.service.*;
 
 import java.util.Base64;
 import java.util.List;
@@ -26,13 +25,17 @@ public class StudioController {
     private final StudioService studioService;
     private final EquipmentService equipmentService;
     private final RentalService rentalService;
+    private final LocationService locationService;
+    private final LocationDao locationDao;
 
     @Autowired
-    public StudioController(UserService userService, StudioService studioService, EquipmentService equipmentService, RentalService rentalService) {
+    public StudioController(UserService userService, StudioService studioService, EquipmentService equipmentService, RentalService rentalService, LocationService locationService, LocationDao locationDao) {
         this.userService = userService;
         this.studioService = studioService;
         this.equipmentService = equipmentService;
         this.rentalService = rentalService;
+        this.locationService = locationService;
+        this.locationDao = locationDao;
     }
 
     private UserDto getAuthenticatedUser() {
@@ -89,6 +92,59 @@ public class StudioController {
         ModelAndView modelAndView = new ModelAndView();
         userService.addStudioToCurrentUser(studioId);
         modelAndView.setViewName("redirect:studio");
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/home/userPage")
+    public ModelAndView getUserInformation() {
+        ModelAndView modelAndView = new ModelAndView();
+        UserDto user = getAuthenticatedUser();
+
+        StudioDto studioDto = studioService.getStudioByUserEmail(user.getEmail());
+        if (studioDto == null){
+            modelAndView.setViewName("redirect:addUserStudio");
+            return modelAndView;
+        }
+
+        LocationDto locationDto = locationService.getLocationByUserEmail(user.getEmail());
+        if (locationDto == null){
+            modelAndView.setViewName("redirect:addUserLocation");
+            return modelAndView;
+        }
+
+        if (user.getProfileImage() != null) {
+            modelAndView.addObject("profileImage", Base64.getEncoder().encodeToString(user.getProfileImage()));
+        }
+        StudioDto studio = studioService.getStudioByUserEmail(user.getEmail());
+        modelAndView.addObject("studio",studioDto);
+        modelAndView.addObject("user",user);
+        modelAndView.addObject("location", locationDto);
+        modelAndView.setViewName("home/userPage");
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/home/addUserLocation")
+    public ModelAndView getAddUserLocation(){
+        ModelAndView modelAndView = new ModelAndView();
+
+        UserDto user = getAuthenticatedUser();
+        LocationDto locationDto = locationService.getLocationByUserEmail(user.getEmail());
+        if (locationDto != null){
+            throw new UserLocationException("User location already selected!");
+        }
+
+        List<LocationDto> locations = locationDao.getAllLocations();
+
+        modelAndView.addObject("locations", locations);
+        modelAndView.setViewName("home/addUserLocation");
+        return modelAndView;
+    }
+
+    @PostMapping(value = "/home/addUserLocation")
+    public ModelAndView addUserLocation(Long locationId) {
+        ModelAndView modelAndView = new ModelAndView();
+        locationService.addLocationToCurrentUser(locationId);
+        modelAndView.setViewName("redirect:userPage");
         return modelAndView;
     }
 }

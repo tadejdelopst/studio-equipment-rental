@@ -82,7 +82,5 @@ public class UserService {
 
             existingUser.setStudio(studio);
         }
-
-
     }
 }

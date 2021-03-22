@@ -10,4 +10,6 @@ import java.util.List;
 
 @Repository
 public interface LocationRepository extends JpaRepository<Location, Long> {
+    @Query("select s from User u join u.location s where u.email = :email")
+    List<Location> getLocationsByUserEmail(String email);
 }

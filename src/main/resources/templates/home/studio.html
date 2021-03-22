@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Grid Template · Bootstrap v5.0</title>
+    <title>Home Page</title>
 
     <!-- Bootstrap core CSS -->
     <link type="text/css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
@@ -20,38 +20,64 @@
                 font-size: 3.5rem;
             }
         }
+
+        body {
+            margin-top: 0 !important;
+        }
     </style>
 
 
     <!-- Custom styles for this template -->
     <link type="text/css" th:href="@{/css/home.css}" rel="stylesheet">
 </head>
-<body class="bg-light">
+    <nav class="navbar navbar-dark bg-dark" aria-label="First navbar example">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navigation</a>
+            <a class="navbar-brand" th:href="@{/}">Logout</a>
+            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-    <div class="container align-content-center">
-        <div class="bd-heading  align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
-            <h3>Current Equipment</h3>
+            <div class="navbar-collapse collapse" id="navbarsExample01" style="">
+                <ul class="navbar-nav me-auto mb-2">
+                    <li class="nav-item active">
+                        <a class="nav-link disabled" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/home/userPage}">User Details</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Model</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Warnings</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="equipment : ${studioEquipment}">
-                        <th scope="row" th:text="${equipment.getName()}"></th>
-                        <td th:text="${equipment.getModel()}"></td>
-                        <td th:text="${equipment.getDescription()}"></td>
-                        <td th:text="${equipment.getWarnings()}"></td>
-                    </tr>
-                    </tbody>
-                </table>
+    </nav>
+<body class="bg-light">
+<main>
+
+<div class="container align-content-center">
+    <div class="bd-heading  align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
+        <h3>Current Equipment</h3>
     </div>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Model</th>
+                <th scope="col">Description</th>
+                <th scope="col">Warnings</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="equipment : ${studioEquipment}">
+                <th scope="row" th:text="${equipment.getName()}"></th>
+                <td th:text="${equipment.getModel()}"></td>
+                <td th:text="${equipment.getDescription()}"></td>
+                <td th:text="${equipment.getWarnings()}"></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
+</div>
+</main>
 </body>
 </html>

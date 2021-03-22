@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home Page</title>
+
+    <!-- Bootstrap core CSS -->
+    <link type="text/css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+    <script th:src="@{/js/cheatsheet.js}"></script>
+
+    <style>
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        body {
+            margin-top: 0 !important;
+        }
+    </style>
+
+
+    <!-- Custom styles for this template -->
+    <link type="text/css" th:href="@{/css/userPage.css}" rel="stylesheet">
+</head>
+<nav class="navbar navbar-dark bg-dark" aria-label="First navbar example">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navigation</a>
+        <a class="navbar-brand" th:href="@{/}">Logout</a>
+        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse collapse" id="navbarsExample01" style="">
+            <ul class="navbar-nav me-auto mb-2">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/home/studio}">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link disabled" href="#" aria-current="page">User Details</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<body class="bg-light">
+<main>
+    <div class="container">
+        <div class="main-body">
+            <div class="row gutters-sm">
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <img class="rounded-circle" th:src="*{'data:image/png;base64,' + profileImage}"
+                                     width="200">
+                                <div class="mt-3">
+                                    <h4 th:text="${user.getFirstName() + ' ' + user.getLastName()}"></h4>
+                                    <p class="text-secondary mb-1"
+                                       th:text="${user.getFirstName() +  user.getLastName()}"></p>
+                                    <p class="text-muted font-size-sm" th:text="${user.getEmail()}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">First Name</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary" th:text="${user.getFirstName()}">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Last Name</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary" th:text="${user.getLastName()}">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Location</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary"
+                                     th:text="${location.getName() + ', ' + location.getPost()}">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Email</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary" th:text="${user.getEmail()}">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Studio</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary" th:text="${studio.getName()}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+</main>
+</body>
+</html>
