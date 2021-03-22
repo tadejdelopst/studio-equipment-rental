@@ -8,20 +8,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import si.scv.studio.equipment.rental.dao.LocationDao;
+import si.scv.studio.equipment.rental.dto.LocationDto;
 import si.scv.studio.equipment.rental.dto.UserDto;
 import si.scv.studio.equipment.rental.service.UserService;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.List;
 
 @Controller
 public class LoginController {
 
     private final UserService userService;
+    private final LocationDao locationDao;
 
     @Autowired
-    public LoginController(UserService userService) {
+    public LoginController(UserService userService, LocationDao locationDao) {
         this.userService = userService;
+        this.locationDao = locationDao;
     }
 
     @GetMapping(value={"/", "/login"})
@@ -57,7 +61,7 @@ public class LoginController {
                 user.setProfileImage(multipartFile.getBytes());
             }
             userService.saveUser(user);
-            modelAndView.addObject("successMessage", "User has been registered successfully/");
+            modelAndView.addObject("successMessage", "User has been registered successfully. Please Login!");
             modelAndView.addObject("user", new UserDto());
             modelAndView.setViewName("registration");
 

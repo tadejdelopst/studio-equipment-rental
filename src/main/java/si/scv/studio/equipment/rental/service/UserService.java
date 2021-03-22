@@ -7,11 +7,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import si.scv.studio.equipment.rental.dao.LocationRepository;
 import si.scv.studio.equipment.rental.dao.StudioRepository;
 import si.scv.studio.equipment.rental.dao.UserRepository;
-import si.scv.studio.equipment.rental.dto.StudioDto;
 import si.scv.studio.equipment.rental.dto.UserDto;
 import si.scv.studio.equipment.rental.exception.UserStudioException;
+import si.scv.studio.equipment.rental.model.Location;
 import si.scv.studio.equipment.rental.model.Studio;
 import si.scv.studio.equipment.rental.model.User;
 
@@ -20,12 +21,14 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final StudioRepository studioRepository;
+    private final LocationRepository locationRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, StudioRepository studioRepository, BCryptPasswordEncoder bCryptPasswordEncoder){
+    public UserService(UserRepository userRepository, StudioRepository studioRepository, LocationRepository locationRepository, BCryptPasswordEncoder bCryptPasswordEncoder){
         this.userRepository = userRepository;
         this.studioRepository = studioRepository;
+        this.locationRepository = locationRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
@@ -79,5 +82,7 @@ public class UserService {
 
             existingUser.setStudio(studio);
         }
+
+
     }
 }
