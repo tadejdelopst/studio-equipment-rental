@@ -97,6 +97,14 @@ RETURN QUERY SELECT id, name, post FROM locations ORDER BY name;
 END;
 $$ LANGUAGE 'plpgsql';
 
+CREATE OR REPLACE FUNCTION FIND_ALL_EQUIPMENT_FOR_DELETE()
+RETURNS TABLE(locationId int8, equipmentName character varying, equipmentModel character varying) AS
+$$
+BEGIN
+RETURN QUERY SELECT id, name, model FROM equipments;
+END;
+$$ LANGUAGE 'plpgsql';
+
 INSERT INTO locations(id, name,post) VALUES(1,'Adlešiči','8341');
 INSERT INTO locations(id, name,post) VALUES(2,'Ajdovščina','5270');
 INSERT INTO locations(id, name,post) VALUES(3,'Ankaran - Ancarano','6280');

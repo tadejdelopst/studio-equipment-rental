@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import si.scv.studio.equipment.rental.dao.StudioRepository;
 import si.scv.studio.equipment.rental.dto.StudioDto;
+import si.scv.studio.equipment.rental.dto.UserDto;
 import si.scv.studio.equipment.rental.exception.UserStudioException;
 import si.scv.studio.equipment.rental.model.Studio;
+import si.scv.studio.equipment.rental.model.User;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +35,12 @@ public class StudioService {
         } else {
             throw new UserStudioException("User cannot have more than one studio!");
         }
+    }
+
+    @Transactional(readOnly = true)
+    public Studio getStudioByName(String name){
+        Studio studio = studioRepository.findByName(name);
+        return studio;
     }
 
     @Transactional(readOnly = true)

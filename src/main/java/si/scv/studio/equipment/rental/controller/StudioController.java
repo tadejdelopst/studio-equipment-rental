@@ -4,10 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import si.scv.studio.equipment.rental.dao.LocationDao;
+import si.scv.studio.equipment.rental.dto.EquipmentDto;
 import si.scv.studio.equipment.rental.dto.LocationDto;
 import si.scv.studio.equipment.rental.dto.StudioDto;
 import si.scv.studio.equipment.rental.dto.UserDto;
@@ -15,6 +19,7 @@ import si.scv.studio.equipment.rental.exception.UserLocationException;
 import si.scv.studio.equipment.rental.exception.UserStudioException;
 import si.scv.studio.equipment.rental.service.*;
 
+import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 
@@ -115,7 +120,6 @@ public class StudioController {
         if (user.getProfileImage() != null) {
             modelAndView.addObject("profileImage", Base64.getEncoder().encodeToString(user.getProfileImage()));
         }
-        StudioDto studio = studioService.getStudioByUserEmail(user.getEmail());
         modelAndView.addObject("studio",studioDto);
         modelAndView.addObject("user",user);
         modelAndView.addObject("location", locationDto);
@@ -145,6 +149,41 @@ public class StudioController {
         ModelAndView modelAndView = new ModelAndView();
         locationService.addLocationToCurrentUser(locationId);
         modelAndView.setViewName("redirect:userPage");
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/home/addStudioEquipment")
+    public ModelAndView getAddStudioEquipment(){
+        ModelAndView modelAndView = new ModelAndView();
+
+        UserDto user = getAuthenticatedUser();
+
+        StudioDto studioDto = studioService.getStudioByUserEmail(user.getEmail());
+        if (studioDto == null){
+            modelAndView.setViewName("redirect:addUserStudio");
+            return modelAndView;
+        }
+
+        EquipmentDto equipment = new EquipmentDto();
+        modelAndView.addObject("equipment", equipment);
+        modelAndView.setViewName("home/addStudioEquipment");
+        return modelAndView;
+    }
+
+    @PostMapping(value = "/home/addStudioEquipment")
+    public ModelAndView createNewEquipmentDto(EquipmentDto equipment, BindingResult bindingResult) throws IOException {
+        ModelAndView modelAndView = new ModelAndView();
+
+        UserDto user = getAuthenticatedUser();
+
+        StudioDto studioDto = studioService.getStudioByUserEmail(user.getEmail());
+        if (studioDto == null){
+            modelAndView.setViewName("redirect:addUserStudio");
+            return modelAndView;
+        }
+
+        equipmentService.saveEquipment(equipment, user);
+        modelAndView.setViewName("redirect:studio");
         return modelAndView;
     }
 }

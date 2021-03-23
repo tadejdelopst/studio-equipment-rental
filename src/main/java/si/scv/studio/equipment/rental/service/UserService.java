@@ -45,7 +45,6 @@ public class UserService {
                         user.getProfileImage());
     }
 
-
     @Transactional
     public void saveUser(UserDto userDto){
         User user = new User();
