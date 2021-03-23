@@ -20,6 +20,9 @@ public class EquipmentDto {
         this.id = id;
         this.name = name;
         this.model = model;
+        this.warnings = "";
+        this.description = "";
+        this.rented = false;
     }
 
     public EquipmentDto(Long id, String name, String model, String warnings, String description, boolean rented){

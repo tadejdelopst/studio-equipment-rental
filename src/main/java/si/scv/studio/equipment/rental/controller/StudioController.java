@@ -7,9 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import si.scv.studio.equipment.rental.dao.EquipmentDao;
 import si.scv.studio.equipment.rental.dao.LocationDao;
 import si.scv.studio.equipment.rental.dto.EquipmentDto;
 import si.scv.studio.equipment.rental.dto.LocationDto;
@@ -17,6 +16,7 @@ import si.scv.studio.equipment.rental.dto.StudioDto;
 import si.scv.studio.equipment.rental.dto.UserDto;
 import si.scv.studio.equipment.rental.exception.UserLocationException;
 import si.scv.studio.equipment.rental.exception.UserStudioException;
+import si.scv.studio.equipment.rental.model.Equipment;
 import si.scv.studio.equipment.rental.service.*;
 
 import java.io.IOException;
@@ -32,15 +32,17 @@ public class StudioController {
     private final RentalService rentalService;
     private final LocationService locationService;
     private final LocationDao locationDao;
+    private final EquipmentDao equipmentDao;
 
     @Autowired
-    public StudioController(UserService userService, StudioService studioService, EquipmentService equipmentService, RentalService rentalService, LocationService locationService, LocationDao locationDao) {
+    public StudioController(UserService userService, StudioService studioService, EquipmentService equipmentService, RentalService rentalService, LocationService locationService, LocationDao locationDao, EquipmentDao equipmentDao) {
         this.userService = userService;
         this.studioService = studioService;
         this.equipmentService = equipmentService;
         this.rentalService = rentalService;
         this.locationService = locationService;
         this.locationDao = locationDao;
+        this.equipmentDao = equipmentDao;
     }
 
     private UserDto getAuthenticatedUser() {
@@ -60,11 +62,10 @@ public class StudioController {
             return modelAndView;
         }
 
-        modelAndView.addObject("userName", "Welcome " + user.getFirstName() + " " + user.getLastName());
-
         if (user.getProfileImage() != null) {
             modelAndView.addObject("profileImage", Base64.getEncoder().encodeToString(user.getProfileImage()));
         }
+
         modelAndView.addObject("studioEquipment", equipmentService.getStudioEquipment(studioDto.getId()));
         modelAndView.setViewName("home/studio");
         return modelAndView;
@@ -79,10 +80,6 @@ public class StudioController {
         StudioDto studioDto = studioService.getStudioByUserEmail(user.getEmail());
         if (studioDto != null){
             throw new UserStudioException("User already has studio!");
-        }
-
-        if (user.getProfileImage() != null) {
-            modelAndView.addObject("profileImage", Base64.getEncoder().encodeToString(user.getProfileImage()));
         }
 
         List<StudioDto> studios = studioService.getStudios();
@@ -183,6 +180,32 @@ public class StudioController {
         }
 
         equipmentService.saveEquipment(equipment, user);
+        modelAndView.setViewName("redirect:studio");
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/home/deleteStudioEquipment")
+    public ModelAndView getStudioEquipmentInformation() {
+        ModelAndView modelAndView = new ModelAndView();
+        UserDto user = getAuthenticatedUser();
+        StudioDto studioDto = studioService.getStudioByUserEmail(user.getEmail());
+        if (studioDto == null){
+            modelAndView.setViewName("redirect:addUserStudio");
+            return modelAndView;
+        }
+        modelAndView.addObject("studioEquipment", equipmentService.getStudioEquipment(studioDto.getId()));
+        modelAndView.setViewName("home/deleteStudioEquipment");
+        return modelAndView;
+    }
+
+    @PostMapping(value = "/home/deleteStudioEquipment")
+    public ModelAndView deleteStudioEquipment(Long equipmentId) {
+        ModelAndView modelAndView = new ModelAndView();
+        UserDto user = getAuthenticatedUser();
+        StudioDto studioDto = studioService.getStudioByUserEmail(user.getEmail());
+        List<Equipment> equipmentDtos = equipmentService.getStudioEquipmentForDelete(studioDto.getId(),equipmentId);
+        Equipment selected = equipmentDtos.get(0);
+        equipmentService.deleteEquipment(selected);
         modelAndView.setViewName("redirect:studio");
         return modelAndView;
     }

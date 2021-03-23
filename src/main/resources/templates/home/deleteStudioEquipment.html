@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SelectStudio</title>
+    <link type="text/css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link type="text/css" th:href="@{/css/home.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <form th:action="@{/home/deleteStudioEquipment}"
+          method="post">
+        <h2>Please select the equipment you want to delete!</h2>
+        <div class="form-group">
+            <div class="mb-3">
+                <select id="equipmentId" name="equipmentId" class="form-select form-select-lg mb-3"
+                        aria-label=".form-select-lg example">
+                    <option th:each="equipment : ${studioEquipment}" th:attr="value = ${equipment.getId()}"
+                            th:text="${equipment.getName()+ ', '+equipment.getModel()  }"></option>
+                </select>
+            </div>
+            <div class="col-sm-9">
+                <button type="submit" class="btn btn-primary btn-block">Delete equipment</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

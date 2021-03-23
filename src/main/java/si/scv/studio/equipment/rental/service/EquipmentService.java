@@ -3,13 +3,18 @@ package si.scv.studio.equipment.rental.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ExpressionException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import si.scv.studio.equipment.rental.dao.EquipmentRepository;
 import si.scv.studio.equipment.rental.dto.EquipmentDto;
 import si.scv.studio.equipment.rental.dto.StudioDto;
 import si.scv.studio.equipment.rental.dto.UserDto;
+import si.scv.studio.equipment.rental.exception.UserStudioException;
 import si.scv.studio.equipment.rental.model.Equipment;
+import si.scv.studio.equipment.rental.model.Location;
 import si.scv.studio.equipment.rental.model.Studio;
 import si.scv.studio.equipment.rental.model.User;
 
@@ -40,6 +45,11 @@ public class EquipmentService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<Equipment> getStudioEquipmentForDelete(Long studioId, Long equipmentId) {
+        return equipmentRepository.getEquipmentStudio(studioId, equipmentId);
+    }
+
     @Transactional
     public void saveEquipment(EquipmentDto equipmentDto, UserDto userDto){
         Equipment equipment = new Equipment();
@@ -53,27 +63,9 @@ public class EquipmentService {
         equipmentRepository.save(equipment);
     }
 
-    @Transactional(readOnly = true)
-    public EquipmentDto getEquipmentByName(String name){
-        Equipment equipment = equipmentRepository.findByName(name);
-        return equipment == null ?
-                null :
-                new EquipmentDto(
-                        equipment.getId(),
-                        equipment.getName(),
-                        equipment.getWarnings(),
-                        equipment.getDescription(),
-                        equipment.getWarnings(),
-                        false);
-    }
-
-
     @Transactional
-    public void addCurrentStudioToEquipment(Long equipmentId, StudioDto studioDto) {
-        Studio studio = studioService.getStudioByName(studioDto.getName());
-
-            Equipment equipment = equipmentRepository.findById(equipmentId)
-                    .orElseThrow(() -> new ExpressionException("Location with id " + equipmentId + " not found!"));
-            equipment.setStudio(studio);
+    public void deleteEquipment(Equipment equipment){
+        equipmentRepository.delete(equipment);
     }
+
 }

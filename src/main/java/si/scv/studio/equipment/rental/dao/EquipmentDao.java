@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class equipmentDao {
+public class EquipmentDao {
 
     @PersistenceContext
     private EntityManager entityManager;

@@ -54,8 +54,6 @@
     </div>
 </nav>
 <body class="bg-light">
-<main>
-
     <div class="container align-content-center">
         <div class="bd-heading  align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
             <h3>Current Equipment</h3>
@@ -86,13 +84,12 @@
                     </form>
                 </div>
                 <div class="col-sm-6">
-                    <form action="#" class="addEqform" th:action="@{/home/deteleStudioEquipment}" method="get">
+                    <form action="#" class="addEqform" th:action="@{/home/deleteStudioEquipment}" method="get">
                         <button type="submit" class="btn btn-secondary btn-block">Delete Equipment</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-</main>
 </body>
 </html>

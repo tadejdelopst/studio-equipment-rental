@@ -14,6 +14,10 @@ public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
     @Query("select e from Equipment e join e.studio s where s.id = :id")
     List<Equipment> getEquipmentForStudio(Long id);
 
+    @Query("select e from Equipment e join e.studio s where s.id = :studioId AND e.id=:equipmentId")
+    List<Equipment> getEquipmentStudio(Long studioId, Long equipmentId);
+
+
     Equipment findByName(String name);
 
 }
