@@ -105,13 +105,13 @@ RETURN QUERY SELECT id, name, model FROM equipments;
 END;
 $$ LANGUAGE 'plpgsql';
 
-CREATE OR REPLACE FUNCTION FIND_ALL_EQUIPMENT_NOT(studioId int)
+CREATE OR REPLACE FUNCTION FIND_ALL_EQUIPMENT_NOT_RENTED(studioId int)
 RETURNS TABLE(equipmentId int8, equipmentName character varying, equipmentModel character varying) AS
 $$
 BEGIN
-RETURN QUERY SELECT e.id, e.name, e.model FROM equipments e
-INNER JOIN studios s ON s.id = e.studio_id
-WHERE s.id != studioId;
+RETURN QUERY SELECT e.id, e.name, e.model FROM studios s
+INNER JOIN equipments e ON s.id = e.studio_id
+WHERE s.id != studioId and e.id NOT IN (SELECT equipment_id from rentals r INNER JOIN equipments e ON e.id = r.equipment_id WHERE e.studio_id != studioId);
 END;
 $$ LANGUAGE 'plpgsql';
 

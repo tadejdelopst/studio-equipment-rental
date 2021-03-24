@@ -19,9 +19,9 @@ public class OtherEquipmentDao {
     private EntityManager entityManager;
 
     @SuppressWarnings("unchecked")
-    public List<EquipmentDto> getAllOtherEquipment(Long studioId){
+    public List<EquipmentDto> getAllOtherUnRentedEquipment(Long studioId){
         Integer param = studioId.intValue();
-        StoredProcedureQuery procedureQuery = entityManager.createStoredProcedureQuery("FIND_ALL_EQUIPMENT_NOT");
+        StoredProcedureQuery procedureQuery = entityManager.createStoredProcedureQuery("FIND_ALL_EQUIPMENT_NOT_RENTED");
         procedureQuery.registerStoredProcedureParameter(param, Integer.class, ParameterMode.IN);
         procedureQuery.setParameter(1, param);
         procedureQuery.execute();
