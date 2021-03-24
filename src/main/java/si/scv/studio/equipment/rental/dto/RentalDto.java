@@ -5,7 +5,6 @@ import java.util.Date;
 public class RentalDto {
     private final Long id;
     private final Date rental_date;
-
     private final  Date return_date;
 
     public RentalDto(Long id, Date rental_date, Date return_date){

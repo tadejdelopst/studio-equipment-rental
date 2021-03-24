@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import si.scv.studio.equipment.rental.dao.EquipmentDao;
 import si.scv.studio.equipment.rental.dao.LocationDao;
+import si.scv.studio.equipment.rental.dao.OtherEquipmentDao;
 import si.scv.studio.equipment.rental.dto.EquipmentDto;
 import si.scv.studio.equipment.rental.dto.LocationDto;
 import si.scv.studio.equipment.rental.dto.StudioDto;
 import si.scv.studio.equipment.rental.dto.UserDto;
 import si.scv.studio.equipment.rental.exception.UserLocationException;
 import si.scv.studio.equipment.rental.exception.UserStudioException;
-import si.scv.studio.equipment.rental.model.Equipment;
 import si.scv.studio.equipment.rental.service.*;
 
 import java.io.IOException;
@@ -33,9 +33,10 @@ public class StudioController {
     private final LocationService locationService;
     private final LocationDao locationDao;
     private final EquipmentDao equipmentDao;
+    private final OtherEquipmentDao otherEquipmentDao;
 
     @Autowired
-    public StudioController(UserService userService, StudioService studioService, EquipmentService equipmentService, RentalService rentalService, LocationService locationService, LocationDao locationDao, EquipmentDao equipmentDao) {
+    public StudioController(UserService userService, StudioService studioService, EquipmentService equipmentService, RentalService rentalService, LocationService locationService, LocationDao locationDao, EquipmentDao equipmentDao, OtherEquipmentDao otherEquipmentDao) {
         this.userService = userService;
         this.studioService = studioService;
         this.equipmentService = equipmentService;
@@ -43,6 +44,7 @@ public class StudioController {
         this.locationService = locationService;
         this.locationDao = locationDao;
         this.equipmentDao = equipmentDao;
+        this.otherEquipmentDao = otherEquipmentDao;
     }
 
     private UserDto getAuthenticatedUser() {
@@ -193,7 +195,7 @@ public class StudioController {
             modelAndView.setViewName("redirect:addUserStudio");
             return modelAndView;
         }
-        modelAndView.addObject("studioEquipment", equipmentService.getStudioEquipment(studioDto.getId()));
+        modelAndView.addObject("studioEquipment", equipmentService.getUnRentedStudioEquipment(studioDto.getId()));
         modelAndView.setViewName("home/deleteStudioEquipment");
         return modelAndView;
     }

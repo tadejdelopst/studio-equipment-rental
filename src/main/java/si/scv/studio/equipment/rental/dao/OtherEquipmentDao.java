@@ -13,14 +13,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class EquipmentDao {
+public class OtherEquipmentDao {
 
     @PersistenceContext
     private EntityManager entityManager;
 
     @SuppressWarnings("unchecked")
-    public List<EquipmentDto> getAllEquipmentForDelete(){
-        StoredProcedureQuery procedureQuery = entityManager.createStoredProcedureQuery("FIND_ALL_EQUIPMENT_FOR_DELETE");
+    public List<EquipmentDto> getAllOtherEquipment(Long studioId){
+        Integer param = studioId.intValue();
+        StoredProcedureQuery procedureQuery = entityManager.createStoredProcedureQuery("FIND_ALL_EQUIPMENT_NOT");
+        procedureQuery.registerStoredProcedureParameter(param, Integer.class, ParameterMode.IN);
+        procedureQuery.setParameter(1, param);
         procedureQuery.execute();
         List<Object[]> results = procedureQuery.getResultList();
         return results.stream()

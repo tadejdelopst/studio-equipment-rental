@@ -2,21 +2,15 @@ package si.scv.studio.equipment.rental.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.expression.ExpressionException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import si.scv.studio.equipment.rental.dao.EquipmentDao;
 import si.scv.studio.equipment.rental.dao.EquipmentRepository;
 import si.scv.studio.equipment.rental.dto.EquipmentDto;
 import si.scv.studio.equipment.rental.dto.StudioDto;
 import si.scv.studio.equipment.rental.dto.UserDto;
-import si.scv.studio.equipment.rental.exception.UserStudioException;
 import si.scv.studio.equipment.rental.model.Equipment;
-import si.scv.studio.equipment.rental.model.Location;
 import si.scv.studio.equipment.rental.model.Studio;
-import si.scv.studio.equipment.rental.model.User;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,11 +19,13 @@ import java.util.stream.Collectors;
 public class EquipmentService {
     private final EquipmentRepository equipmentRepository;
     private final StudioService studioService;
+    private final EquipmentDao equipmentDao;
 
     @Autowired
-    public EquipmentService(EquipmentRepository equipmentRepository, StudioService studioService) {
+    public EquipmentService(EquipmentRepository equipmentRepository, StudioService studioService, EquipmentDao equipmentDao) {
         this.equipmentRepository = equipmentRepository;
         this.studioService = studioService;
+        this.equipmentDao = equipmentDao;
     }
 
     @Transactional(readOnly = true)
@@ -44,6 +40,14 @@ public class EquipmentService {
                         !equipment.getRentals().isEmpty()))
                 .collect(Collectors.toList());
     }
+
+    @Transactional(readOnly = true)
+    public List<EquipmentDto> getUnRentedStudioEquipment(Long studioId){
+        return getStudioEquipment(studioId).stream()
+                .filter(equipmentDto -> !equipmentDto.isRented())
+                .collect(Collectors.toList());
+    }
+
 
     @Transactional
     public void saveEquipment(EquipmentDto equipmentDto, UserDto userDto){

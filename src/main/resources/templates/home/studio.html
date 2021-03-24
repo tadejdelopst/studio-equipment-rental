@@ -34,7 +34,7 @@
 <nav class="navbar navbar-dark bg-dark" aria-label="First navbar example">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Navigation</a>
-        <a class="navbar-brand" th:href="@{/}">Logout</a>
+        <a class="navbar-brand" th:href="@{/logout}">Logout</a>
         <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -66,6 +66,7 @@
                     <th scope="col">Model</th>
                     <th scope="col">Description</th>
                     <th scope="col">Warnings</th>
+                    <th scope="col">Rented</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -74,6 +75,7 @@
                     <td th:text="${equipment.getModel()}"></td>
                     <td th:text="${equipment.getDescription()}"></td>
                     <td th:text="${equipment.getWarnings()}"></td>
+                    <td th:text="${equipment.isRented()}"></td>
                 </tr>
                 </tbody>
             </table>
