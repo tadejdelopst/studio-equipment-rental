@@ -2,7 +2,6 @@ package si.scv.studio.equipment.rental.dao;
 
 import org.springframework.stereotype.Component;
 import si.scv.studio.equipment.rental.dto.EquipmentDto;
-import si.scv.studio.equipment.rental.dto.LocationDto;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

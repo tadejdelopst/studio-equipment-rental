@@ -64,7 +64,6 @@ public class UserService {
         } else {
             existingUser.setLastName(userDto.getLastName());
             existingUser.setFirstName(userDto.getFirstName());
-            existingUser.setEmail(userDto.getEmail());
         }
     }
 

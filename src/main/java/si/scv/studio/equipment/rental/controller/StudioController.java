@@ -202,11 +202,34 @@ public class StudioController {
     public ModelAndView deleteStudioEquipment(Long equipmentId) {
         ModelAndView modelAndView = new ModelAndView();
         UserDto user = getAuthenticatedUser();
-        StudioDto studioDto = studioService.getStudioByUserEmail(user.getEmail());
-        List<Equipment> equipmentDtos = equipmentService.getStudioEquipmentForDelete(studioDto.getId(),equipmentId);
-        Equipment selected = equipmentDtos.get(0);
-        equipmentService.deleteEquipment(selected);
+        equipmentService.deleteEquipment(equipmentId);
         modelAndView.setViewName("redirect:studio");
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/home/updateUser")
+    public ModelAndView getUpdateUser() {
+        ModelAndView modelAndView = new ModelAndView();
+        UserDto user = getAuthenticatedUser();
+        StudioDto studioDto = studioService.getStudioByUserEmail(user.getEmail());
+        if (studioDto == null){
+            modelAndView.setViewName("redirect:addUserStudio");
+            return modelAndView;
+        }
+        UserDto userDto = new UserDto();
+        modelAndView.addObject("user", userDto);
+        modelAndView.addObject("existingUser", user);
+        modelAndView.setViewName("home/updateUser");
+        return modelAndView;
+    }
+
+    @PostMapping(value = "/home/updateUser")
+    public ModelAndView updateUser(UserDto user) {
+        ModelAndView modelAndView = new ModelAndView();
+        UserDto authenticatedUser = getAuthenticatedUser();
+        user.setEmail(authenticatedUser.getEmail());
+        userService.updateUser(user);
+        modelAndView.setViewName("redirect:userPage");
         return modelAndView;
     }
 }

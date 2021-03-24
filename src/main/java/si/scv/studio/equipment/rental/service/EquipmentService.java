@@ -45,11 +45,6 @@ public class EquipmentService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
-    public List<Equipment> getStudioEquipmentForDelete(Long studioId, Long equipmentId) {
-        return equipmentRepository.getEquipmentStudio(studioId, equipmentId);
-    }
-
     @Transactional
     public void saveEquipment(EquipmentDto equipmentDto, UserDto userDto){
         Equipment equipment = new Equipment();
@@ -64,7 +59,9 @@ public class EquipmentService {
     }
 
     @Transactional
-    public void deleteEquipment(Equipment equipment){
+    public void deleteEquipment(Long equipmentId){
+        Equipment equipment = equipmentRepository.findById(equipmentId)
+                .orElseThrow(() -> new IllegalStateException("Equipment with id " + equipmentId + " not found!"));
         equipmentRepository.delete(equipment);
     }
 
