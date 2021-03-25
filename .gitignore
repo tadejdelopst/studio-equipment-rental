@@ -2,7 +2,6 @@
 target/
 classes/
 git.properties
-log4j2.xml
 log42j-test.xml
 *.iml
 *.ipr
