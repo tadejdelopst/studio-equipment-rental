@@ -3,9 +3,9 @@ package si.scv.studio.equipment.rental.dto;
 import java.util.Date;
 
 public class RentalDto {
-    private final Long id;
-    private final Date rental_date;
-    private final  Date return_date;
+    private Long id;
+    private Date rental_date;
+    private  Date return_date;
 
     public RentalDto(Long id, Date rental_date, Date return_date){
         this.id = id;

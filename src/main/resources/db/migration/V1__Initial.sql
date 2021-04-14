@@ -115,6 +115,16 @@ WHERE s.id != studioId and e.id NOT IN (SELECT equipment_id from rentals r INNER
 END;
 $$ LANGUAGE 'plpgsql';
 
+CREATE OR REPLACE FUNCTION FIND_STUDIO_RENTED_EQUIPMENT(studioId int)
+RETURNS TABLE(equipmentId int8, equipmentName character varying, equipmentModel character varying) AS
+$$
+BEGIN
+RETURN QUERY select e.id,  e.name , e.model from studios s inner join equipments e on s.id=e.studio_id
+inner join rentals r on e.id=r.equipment_id inner join users us on us.id=r.user_id
+where r.user_id in (select use.id from users use inner join studios stu on stu.id=use.studio_id where use.studio_id = studioId);
+END;
+$$ LANGUAGE 'plpgsql';
+
 INSERT INTO locations(id, name,post) VALUES(1,'Adlešiči','8341');
 INSERT INTO locations(id, name,post) VALUES(2,'Ajdovščina','5270');
 INSERT INTO locations(id, name,post) VALUES(3,'Ankaran - Ancarano','6280');
@@ -253,7 +263,7 @@ VALUES (16,'Kamera' , 'Nikon 11', 'Ni opomb.', 'kamera za vsakdanje snemanje.', 
 
 
 INSERT INTO rentals (id, rental_date, return_date, equipment_id, user_id)
-VALUES(1, '12-4-2021', '12-5-2021' , 15 , 1 );
+VALUES(1, '2021-04-22', '12-5-2021' , 15 , 1 );
 
 INSERT INTO rentals (id, rental_date, return_date, equipment_id, user_id)
 VALUES(2, '22-6-2021', '22-7-2021' , 13 , 3 );

@@ -44,57 +44,51 @@
         <div class="navbar-collapse collapse" id="navbarsExample01" style="">
             <ul class="navbar-nav me-auto mb-2">
                 <li class="nav-item active">
-                    <a class="nav-link disabled" aria-current="page" href="#">Home</a>
+                    <a class="nav-link" th:href="@{/home/studio}">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/home/userPage}">User Details</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/home/rentals}">Rent</a>
+                    <a class="nav-link disabled" aria-current="page" href="#">Rentals</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 <body class="bg-light">
-    <div class="container align-content-center">
-        <div class="bd-heading  align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
-            <h3>Current Equipment</h3>
-        </div>
-        <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Model</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Warnings</th>
-                    <th scope="col">Rented</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="equipment : ${studioEquipment}">
-                    <th scope="row" th:text="${equipment.getName()}"></th>
-                    <td th:text="${equipment.getModel()}"></td>
-                    <td th:text="${equipment.getDescription()}"></td>
-                    <td th:text="${equipment.getWarnings()}"></td>
-                    <td th:text="${equipment.isRented()}"></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="row">
-                <div class="col-sm-6">
-                    <form action="#" class="addEqform" th:action="@{/home/addStudioEquipment}" method="get">
-                        <button type="submit" class="btn btn-primary btn-block">Add new equipment</button>
-                    </form>
-                </div>
-                <div class="col-sm-6">
-                    <form action="#" class="addEqform" th:action="@{/home/deleteStudioEquipment}" method="get">
-                        <button type="submit" class="btn btn-secondary btn-block">Delete Equipment</button>
-                    </form>
-                </div>
+<div class="container align-content-center">
+    <div class="bd-heading  align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
+        <h3>Current Equipment</h3>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Model</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="equipment : ${studioEquipment}">
+                <th scope="row" th:text="${equipment.getName()}"></th>
+                <td th:text="${equipment.getModel()}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-sm-6">
+                <form action="#" class="addEqform" th:action="@{/home/rentEquipment}" method="get">
+                    <button type="submit" class="btn btn-primary btn-block">Rent new equipment</button>
+                </form>
+            </div>
+            <div class="col-sm-6">
+                <form action="#" class="addEqform" th:action="@{/home/deleteStudioEquipment}" method="get">
+                    <button type="submit" class="btn btn-secondary btn-block">Return Equipment</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>

@@ -195,7 +195,7 @@ public class StudioController {
             modelAndView.setViewName("redirect:addUserStudio");
             return modelAndView;
         }
-        modelAndView.addObject("studioEquipment", equipmentService.getUnRentedStudioEquipment(studioDto.getId()));
+        modelAndView.addObject("studioEquipment", equipmentService.getStudioEquipment(studioDto.getId()));
         modelAndView.setViewName("home/deleteStudioEquipment");
         return modelAndView;
     }
@@ -232,6 +232,46 @@ public class StudioController {
         user.setEmail(authenticatedUser.getEmail());
         userService.updateUser(user);
         modelAndView.setViewName("redirect:userPage");
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/home/rentEquipment")
+    public ModelAndView getRentEquipment() {
+        ModelAndView modelAndView = new ModelAndView();
+        UserDto user = getAuthenticatedUser();
+        StudioDto studioDto = studioService.getStudioByUserEmail(user.getEmail());
+        if (studioDto == null){
+            modelAndView.setViewName("redirect:addUserStudio");
+            return modelAndView;
+        }
+        modelAndView.addObject("studioEquipment", otherEquipmentDao.getAllOtherUnRentedEquipment(studioDto.getId()));
+        modelAndView.setViewName("home/rentEquipment");
+        return modelAndView;
+    }
+
+    @PostMapping(value = "/home/rentEquipment")
+    public ModelAndView rentEquipment(Long equipmentId) {
+        ModelAndView modelAndView = new ModelAndView();
+        UserDto user = getAuthenticatedUser();
+        rentalService.saveRental(equipmentId, user);
+        modelAndView.setViewName("redirect:rentals");
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/home/rentals")
+    public ModelAndView getRentalsInformation() {
+        ModelAndView modelAndView = new ModelAndView();
+
+        UserDto user = getAuthenticatedUser();
+
+        StudioDto studioDto = studioService.getStudioByUserEmail(user.getEmail());
+        if (studioDto == null){
+            modelAndView.setViewName("redirect:addUserStudio");
+            return modelAndView;
+        }
+
+        modelAndView.addObject("studioEquipment", otherEquipmentDao.getStudioRentedEquipment(studioDto.getId()));
+        modelAndView.setViewName("home/rentals");
         return modelAndView;
     }
 }
