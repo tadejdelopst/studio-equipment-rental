@@ -48,4 +48,13 @@ public class RentalService {
         rental.setReturn_date(returnDate);
         rentalRepository.save(rental);
     }
+
+    @Transactional
+    public void deleteRental(Long equipmentId){
+        Equipment equipment = equipmentRepository.findById(equipmentId)
+                .orElseThrow(() -> new IllegalStateException("Equipment with id " + equipmentId + " not found!"));
+        Rental rental = rentalRepository.findByEquipment(equipment);
+        rentalRepository.delete(rental);
+    }
+
 }

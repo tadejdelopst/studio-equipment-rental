@@ -115,6 +115,15 @@ WHERE s.id != studioId and e.id NOT IN (SELECT equipment_id from rentals r INNER
 END;
 $$ LANGUAGE 'plpgsql';
 
+CREATE OR REPLACE FUNCTION DELETE_RENTAL(EquipmentID int)
+RETURNS int AS
+$$
+BEGIN
+delete from rentals where equipment_id  = EquipmentID;
+return 1;
+END;
+$$ LANGUAGE 'plpgsql';
+
 CREATE OR REPLACE FUNCTION FIND_STUDIO_RENTED_EQUIPMENT(studioId int)
 RETURNS TABLE(equipmentId int8, equipmentName character varying, equipmentModel character varying) AS
 $$

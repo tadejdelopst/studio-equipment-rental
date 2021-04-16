@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import si.scv.studio.equipment.rental.dao.EquipmentDao;
 import si.scv.studio.equipment.rental.dao.LocationDao;
 import si.scv.studio.equipment.rental.dao.OtherEquipmentDao;
+import si.scv.studio.equipment.rental.dao.RentalDao;
 import si.scv.studio.equipment.rental.dto.EquipmentDto;
 import si.scv.studio.equipment.rental.dto.LocationDto;
 import si.scv.studio.equipment.rental.dto.StudioDto;
@@ -33,10 +34,11 @@ public class StudioController {
     private final LocationService locationService;
     private final LocationDao locationDao;
     private final EquipmentDao equipmentDao;
+    private final RentalDao rentalDao;
     private final OtherEquipmentDao otherEquipmentDao;
 
     @Autowired
-    public StudioController(UserService userService, StudioService studioService, EquipmentService equipmentService, RentalService rentalService, LocationService locationService, LocationDao locationDao, EquipmentDao equipmentDao, OtherEquipmentDao otherEquipmentDao) {
+    public StudioController(UserService userService, StudioService studioService, EquipmentService equipmentService, RentalService rentalService, LocationService locationService, LocationDao locationDao, EquipmentDao equipmentDao, RentalDao rentalDao, OtherEquipmentDao otherEquipmentDao) {
         this.userService = userService;
         this.studioService = studioService;
         this.equipmentService = equipmentService;
@@ -44,6 +46,7 @@ public class StudioController {
         this.locationService = locationService;
         this.locationDao = locationDao;
         this.equipmentDao = equipmentDao;
+        this.rentalDao = rentalDao;
         this.otherEquipmentDao = otherEquipmentDao;
     }
 
@@ -272,6 +275,28 @@ public class StudioController {
 
         modelAndView.addObject("studioEquipment", otherEquipmentDao.getStudioRentedEquipment(studioDto.getId()));
         modelAndView.setViewName("home/rentals");
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/home/returnEquipment")
+    public ModelAndView getReturnEquipment() {
+        ModelAndView modelAndView = new ModelAndView();
+        UserDto user = getAuthenticatedUser();
+        StudioDto studioDto = studioService.getStudioByUserEmail(user.getEmail());
+        if (studioDto == null){
+            modelAndView.setViewName("redirect:addUserStudio");
+            return modelAndView;
+        }
+        modelAndView.addObject("studioEquipment", otherEquipmentDao.getStudioRentedEquipment(studioDto.getId()));
+        modelAndView.setViewName("home/returnEquipment");
+        return modelAndView;
+    }
+
+    @PostMapping(value = "/home/returnEquipment")
+    public ModelAndView returnEquipment(Long equipmentId) {
+        ModelAndView modelAndView = new ModelAndView();
+        rentalService.deleteRental(equipmentId);
+        modelAndView.setViewName("redirect:rentals");
         return modelAndView;
     }
 }
