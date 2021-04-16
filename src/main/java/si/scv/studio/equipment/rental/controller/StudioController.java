@@ -299,4 +299,17 @@ public class StudioController {
         modelAndView.setViewName("redirect:rentals");
         return modelAndView;
     }
+
+    @GetMapping(value = "/home/statistics")
+    public ModelAndView getStats() {
+        ModelAndView modelAndView = new ModelAndView();
+        UserDto user = getAuthenticatedUser();
+        StudioDto studioDto = studioService.getStudioByUserEmail(user.getEmail());
+        if (studioDto == null){
+            modelAndView.setViewName("redirect:addUserStudio");
+            return modelAndView;
+        }
+        modelAndView.setViewName("home/statistics");
+        return modelAndView;
+    }
 }

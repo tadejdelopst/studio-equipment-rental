@@ -8,7 +8,8 @@
     <title>Home Page</title>
     <link type="text/css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-    <script th:src="@{/js/cheatsheet.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
+    <script th:src="@{/js/dashboard.js}"></script>
     <style>
         @media (min-width: 768px) {
             .bd-placeholder-img-lg {
@@ -29,7 +30,7 @@
             overflow-x: hidden !important; !important;
         }
     </style>
-    <link type="text/css" th:href="@{/css/home.css}" rel="stylesheet">
+    <link type="text/css" th:href="@{/css/dashboard.css}" rel="stylesheet">
 </head>
 <nav class="navbar navbar-dark bg-dark" aria-label="First navbar example">
     <div class="container-fluid">
@@ -50,48 +51,21 @@
                     <a class="nav-link" th:href="@{/home/userPage}">User Details</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/home/statistics}">Statistics</a>
+                    <a CLASS="nav-link" th:href="@{/home/rentals}">Rentals</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" aria-current="page" href="#">Rentals</a>
+                    <a class="nav-link disabled" aria-current="page" href="#">Stats</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 <body class="bg-light">
-<div class="container align-content-center">
-    <div class="bd-heading  align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
-        <h3>Current Equipment</h3>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Statistics</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
     </div>
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Model</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="equipment : ${studioEquipment}">
-                <th scope="row" th:text="${equipment.getName()}"></th>
-                <td th:text="${equipment.getModel()}"></td>
-            </tr>
-            </tbody>
-        </table>
-        <div class="row">
-            <div class="col-sm-6">
-                <form action="#" class="addEqform" th:action="@{/home/rentEquipment}" method="get">
-                    <button type="submit" class="btn btn-primary btn-block">Rent new equipment</button>
-                </form>
-            </div>
-            <div class="col-sm-6">
-                <form action="#" class="addEqform" th:action="@{/home/returnEquipment}" method="get">
-                    <button type="submit" class="btn btn-secondary btn-block">Return Equipment</button>
-                </form>
-            </div>
-        </div>
+    <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
     </div>
-</div>
 </body>
 </html>
