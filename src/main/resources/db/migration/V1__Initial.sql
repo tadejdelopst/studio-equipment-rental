@@ -134,6 +134,86 @@ where r.user_id in (select use.id from users use inner join studios stu on stu.i
 END;
 $$ LANGUAGE 'plpgsql';
 
+ALTER TABLE studios
+ADD user_count int8;
+
+CREATE FUNCTION public.count_users()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+DECLARE 
+    id_studio int;
+    id_user int;
+    number int;
+    BEGIN
+        FOR id_studio IN SELECT id FROM studios
+        LOOP
+            number := 0;
+            FOR id_user IN SELECT id FROM users
+            LOOP
+                IF((SELECT email
+                   FROM users
+                   WHERE id = id_user AND studio_id = id_studio ) IS NOT NULL) THEN
+                    number := number + 1;
+                END IF;
+            END LOOP;
+            UPDATE studios
+            SET user_count = number
+            WHERE id = id_studio;
+        END LOOP;
+    RETURN NULL;
+    END;
+$BODY$;
+
+
+CREATE TRIGGER trigger_users
+AFTER INSERT OR DELETE OR UPDATE 
+ON public.users
+FOR EACH ROW
+EXECUTE PROCEDURE public.count_users();
+
+ALTER TABLE studios
+ADD equipment_count int8;
+
+CREATE FUNCTION public.count_equipment()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+DECLARE 
+    id_studio int;
+    id_equipment int;
+    number int;
+    BEGIN
+        FOR id_studio IN SELECT id FROM studios
+        LOOP
+            number := 0;
+            FOR id_equipment IN SELECT id FROM equipments
+            LOOP
+                IF((SELECT name
+                   FROM equipments
+                   WHERE id= id_equipment AND studio_id = id_studio ) IS NOT NULL) THEN
+                    number := number + 1;
+                END IF;
+            END LOOP;
+            UPDATE studios
+            SET equipment_count = number
+            WHERE id = id_studio;
+        END LOOP;
+    RETURN NULL;
+    END;
+$BODY$;
+
+
+CREATE TRIGGER trigger_equipment
+AFTER INSERT OR DELETE OR UPDATE 
+ON public.equipments
+FOR EACH ROW
+EXECUTE PROCEDURE public.count_equipment();
+
 INSERT INTO locations(id, name,post) VALUES(1,'Adlešiči','8341');
 INSERT INTO locations(id, name,post) VALUES(2,'Ajdovščina','5270');
 INSERT INTO locations(id, name,post) VALUES(3,'Ankaran - Ancarano','6280');
