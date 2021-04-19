@@ -1,1 +1,3 @@
 # studio-equipment-rental
+
+Aplikacija je namenjena studiom, ki imajo v lasti opremo, ki bi jo lahko posodili kakšnemu drugemu studiu. Na stran lahko dodajo svojo opremo, ki dobi stanje, da ni izposojena. Po dodajanju se pokaže ostalim studiom, ki si jo lahko sposodijo. Oprema, ki je v lasti in je sposojena je vidna na sletni strani. Celotna aplikacija deluje preko APIjev. Uporabnik se lahko registrira in prijavi. Prav tako ima namenjeno svojo stran, kjer si lahko spremeni ime in priimek. Emaila in gesla si nemore, ker to ni dovoljeno v authentikaciji. Na voljo je tudi graf za statistični pregled sposoje opreme.
